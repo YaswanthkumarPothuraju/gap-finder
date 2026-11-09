@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Quiz · GapFinder AI{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <p class="eyebrow">{{ quiz.mode|upper }} · ATTEMPT {{ quiz.attempt_no }}</p>
+  <h1>Your material, your questions.</h1>
+  <p class="muted">Answer using what you know. Every question shows the passage it was built from.</p>
+</div>
+{% if submitted %}
+  <section class="panel panel-accent"><h2>Attempt submitted</h2><p class="muted">Your answers are saved. Open the gap report to see topic feedback.</p><a class="button button-primary" href="/report/{{ quiz.id }}">View gap report</a></section>
+{% else %}
+<form method="post" action="/quiz/{{ quiz.id }}/submit" class="stack quiz-stack">
+  {% for question in questions %}
+  <article class="panel question-card">
+    <div class="question-meta"><span class="badge badge-neutral">{{ question.topic_title }}</span><span class="muted small">{{ question.difficulty|title }} · {{ question.question_type|replace('_',' ')|title }}</span></div>
+    <h2>{{ loop.index }}. {{ question.stem }}</h2>
+    {% if question.question_type == "mcq" %}
+      <div class="choice-list">{% for option in question.options %}<label class="choice"><input type="radio" name="answer_{{ question.id }}" value="{{ loop.index0 }}"><span>{{ option }}</span></label>{% endfor %}</div>
+    {% elif question.question_type == "true_false" %}
+      <div class="choice-list"><label class="choice"><input type="radio" name="answer_{{ question.id }}" value="true"><span>True</span></label><label class="choice"><input type="radio" name="answer_{{ question.id }}" value="false"><span>False</span></label></div>
+    {% else %}
+      <label class="answer-label">Your answer<textarea name="answer_{{ question.id }}" rows="4" placeholder="Write a short answer…"></textarea></label>
+    {% endif %}
+    <div class="citation-line">Evidence:
+      {% for source in question.sources %}<a href="/sources/{{ source.id }}" target="_blank" rel="noopener">{{ source.label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+    </div>
+  </article>
+  {% endfor %}
+  <div class="submit-row"><span class="muted small">Unanswered questions count as incorrect.</span><button class="button button-primary" type="submit">Submit answers</button></div>
+</form>
+{% endif %}
+{% endblock %}
