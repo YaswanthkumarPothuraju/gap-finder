@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}GapFinder AI{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/dashboard"><span class="brand-mark">G</span><span>GapFinder <b>AI</b></span></a>
+    {% if request.session.get("user") %}
+    <nav>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/plan">Revision plan</a>
+      <a href="/explain">Explain a topic</a>
+    </nav>
+    <form method="post" action="/logout"><button class="button button-quiet" type="submit">Sign out</button></form>
+    {% endif %}
+  </header>
+  <main class="page">
+    {% if notice %}<div class="notice notice-{{ notice.kind }}">{{ notice.message }}</div>{% endif %}
+    {% if error %}<div class="notice notice-error">{{ error }}</div>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Your material, your evidence. GapFinder only uses the files you upload.</footer>
+</body>
+</html>
