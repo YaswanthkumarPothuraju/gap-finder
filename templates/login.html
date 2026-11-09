@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sign in · GapFinder AI{% endblock %}
+{% block content %}
+<section class="login-wrap">
+  <div class="login-card">
+    <p class="eyebrow">STUDY WITH A CLEARER PICTURE</p>
+    <h1>Find the gaps.<br><span>Plan what’s next.</span></h1>
+    <p class="muted">Upload your study material to build a topic map, take a grounded quiz, and get a revision plan that fits your time.</p>
+    <form method="post" action="/login" class="stack">
+      <label>Username<input name="username" autocomplete="username" required autofocus></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="button button-primary button-wide" type="submit">Sign in</button>
+    </form>
+    <p class="hint">Local demo credentials: <code>demo</code> / <code>demo</code></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+*.py[cod]
+gapfinder.db
+gapfinder.db-shm
+gapfinder.db-wal
